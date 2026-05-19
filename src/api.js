@@ -1,12 +1,12 @@
 /**
- * 구글 v1beta 엔드포인트를 적용하여 404 Not Found를 완벽하게 해결한 최종 api.js
+ * 구글 최신 규격을 적용하여 404와 400 에러를 완벽히 해결한 api.js
  */
 export const getAIResponse = async (userMessage) => {
-  // ⚠️ 서박 리더의 소중한 새 API 키! 그대로 유지합니다.
-  const API_KEY = "AIzaSyC_m5Jlvg2ahBO5im0f-AkWEXprCJWcVDQ"; 
+  // ⚠️ 발급받으신 실제 구글 API 키를 따옴표 안에 정확히 넣어주세요! (예: "AIzaSy...")
+  const API_KEY = "AIzaSyCUOUYZZBE-READ0m6rAI7mjpG94DzdVhg"; 
   
-  // 💡 해결의 열쇠: v1 대신 'v1beta' 주소를 사용하면 구글이 1.5-flash 모델을 바로 인식합니다!
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+  // 💡 [해결책 1] 모델 이름을 최신 규격인 'gemini-2.5-flash'로 변경합니다.
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
   try {
     const prompt = `당신은 가정폭력 피해자를 돕는 따뜻하고 전문적인 상담사입니다. 
@@ -19,6 +19,8 @@ export const getAIResponse = async (userMessage) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // 💡 [해결책 2] API 키 유효성 에러(400)를 방지하기 위해 헤더에 키를 안전하게 담아 전송합니다.
+        "x-goog-api-key": API_KEY 
       },
       body: JSON.stringify({
         contents: [
